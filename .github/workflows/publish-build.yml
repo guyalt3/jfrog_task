@@ -32,6 +32,9 @@ jobs:
 
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v4
+      id: setup-cli
+      with:
+        auth-token: ${{ secrets.JF_AUTH_TOKEN }}
     
     - name: Set CLI Config
       run: jf npm-config --global=true --repo-resolve=${{ env.NPM_VIRTUAL_REPO }} --repo-deploy=${{ env.NPM_VIRTUAL_REPO }}
