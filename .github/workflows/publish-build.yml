@@ -37,7 +37,7 @@ jobs:
         JF_AUTH_TOKEN: ${{ secrets.JF_AUTH_TOKEN }}
     
     - name: Set CLI Config
-      run: jf npm-config --global=true --repo-resolve=${{ vars.NPM_VIRTUAL_REPO }} --repo-deploy=${{ vars.NPM_VIRTUAL_REPO }}
+      run: jf npm-config --global=true --repo-resolve=${{ env.NPM_VIRTUAL_REPO }} --repo-deploy=${{ env.NPM_VIRTUAL_REPO }}
 
     - name: build webapp
       run: |
