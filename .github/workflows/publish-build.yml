@@ -18,10 +18,10 @@ jobs:
   build-publish-docker:
     runs-on: ubuntu-latest
     env:
-      DOCKER_REPO: <SET YOUR DOCKER VIRTUAL/LOCAL/REMOTE REPO HERE>
+      DOCKER_REPO: docker-trial
       IMAGE_NAME: myApp
       JF_URL: https://${{ vars.JF_URL }}/
-      NPM_VIRTUAL_REPO: <SET YOUR NPM VIRTUAL/LOCAL/REMOTE REPO HERE>
+      NPM_VIRTUAL_REPO: npm-local
       DOCKER_BUILD_SUMMARY: false
       DOCKER_BUILD_RECORD_UPLOAD: false
       JFROG_CLI_LOG_LEVEL: DEBUG
@@ -36,7 +36,7 @@ jobs:
       env:
         JF_URL: https://${{ vars.JF_URL }}/
       with:
-        oidc-provider-name: jfrog-github-oidc #Establish an OIDC connection to allow trust between the workflow and your JFrog instance
+        oidc-provider-name: ${{ secrets.JF_AUTH_TOKEN }}
     
     - name: Set CLI Config
       run: jf npm-config --global=true --repo-resolve=${{ vars.NPM_VIRTUAL_REPO }} --repo-deploy=${{ vars.NPM_VIRTUAL_REPO }}
@@ -62,13 +62,13 @@ jobs:
         push: true
         context: .
         platforms: linux/amd64,linux/arm64
-        tags: ${{ vars.JF_URL }}/${{ env.DOCKER_REPO }}/${{ env.IMAGE_NAME }}
+        tags: ${{ vars.JF_URL }}/${{ env.DOCKER_REPO }}/${{ env.IMAGE_NAME }}:latest
         provenance: false
         
 
     - name: add docker package to build
       run: |
-           echo "${{ vars.JF_URL }}/${{ env.DOCKER_REPO }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}" > metadata.json
+           echo "${{ vars.JF_URL }}/${{ env.DOCKER_REPO }}/${{ env.IMAGE_NAME }}:latest@${{ steps.build.outputs.digest }}" > metadata.json
            jf rt build-docker-create ${{ env.DOCKER_REPO }} --image-file metadata.json
            
     - name: publish build info
