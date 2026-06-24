@@ -32,11 +32,9 @@ jobs:
 
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v4
-      id: setup-cli
       env:
         JF_URL: https://${{ vars.JF_URL }}/
-      with:
-        oidc-provider-name: ${{ secrets.JF_AUTH_TOKEN }}
+        JF_AUTH_TOKEN: ${{ secrets.JF_AUTH_TOKEN }}
     
     - name: Set CLI Config
       run: jf npm-config --global=true --repo-resolve=${{ vars.NPM_VIRTUAL_REPO }} --repo-deploy=${{ vars.NPM_VIRTUAL_REPO }}
@@ -51,9 +49,9 @@ jobs:
     - name: Authenticate Docker
       uses: docker/login-action@v3
       with:
-         registry: ${{ vars.JF_URL }}
-         username: ${{ steps.setup-cli.outputs.oidc-user }}
-         password: ${{ steps.setup-cli.outputs.oidc-token }}
+        registry: ${{ vars.JF_URL }}
+        username: guy.alt@live.biu.ac.il
+        password: ${{ secrets.JF_AUTH_TOKEN }}
 
     - name: Build the Docker image
       uses: docker/build-push-action@v6
