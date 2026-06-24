@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_REPO: docker-trial
-      IMAGE_NAME: myApp
+      IMAGE_NAME: myapp
       JF_URL: https://${{ vars.JF_URL }}/
       NPM_VIRTUAL_REPO: npm-virtual
       DOCKER_BUILD_SUMMARY: false
