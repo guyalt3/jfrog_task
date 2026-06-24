@@ -21,7 +21,7 @@ jobs:
       DOCKER_REPO: docker-trial
       IMAGE_NAME: myApp
       JF_URL: https://${{ vars.JF_URL }}/
-      NPM_VIRTUAL_REPO: npm-local
+      NPM_VIRTUAL_REPO: npm-virtual
       DOCKER_BUILD_SUMMARY: false
       DOCKER_BUILD_RECORD_UPLOAD: false
       JFROG_CLI_LOG_LEVEL: DEBUG
